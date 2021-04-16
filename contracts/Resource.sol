@@ -12,7 +12,6 @@ contract Resource{
     // CC0 Public domain/ BY Attribution / SA Share alike / NC Non commercial
     enum License{CC0, BY, BYSA, BYNC}
 
-    modifier notFull (string memory _string) {bytes memory stringTest =  bytes(_string); require (stringTest.length == 0); _;}
     modifier notVoted (address _voter) { require(hasVoted[_voter] == false, "The user has already voted"); _;}
     
     // Events
@@ -39,7 +38,7 @@ contract Resource{
     }
 
     // Registro de adaptacion
-    function registerAdaptation(Adaptation _adaptationType, string memory _adaptationHash) public notFull(_adaptationHash){
+    function registerAdaptation(Adaptation _adaptationType, string memory _adaptationHash) public{
         emit AdaptationEvent(msg.sender, _adaptationType, _adaptationHash);
     }
 
