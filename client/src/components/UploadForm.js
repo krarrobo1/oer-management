@@ -61,7 +61,6 @@ export const UploadForm = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (isFormValid()) {
-            console.log(drizzle.web3.utils);
             const ipfsFileName = drizzle.web3.utils.utf8ToHex(name);
             const ipfsSubject = drizzle.web3.utils.utf8ToHex(subject);
             const ipfsMaterialType = drizzle.web3.utils.utf8ToHex(materialType);
