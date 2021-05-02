@@ -13,6 +13,8 @@ export const NavBar = () => {
                 <div className="navbar-nav">
                     <NavLink exact activeClassName="active" to="/" className="nav-item nav-link"> Home </NavLink>
                     <NavLink exact activeClassName="active" to="/about" className="nav-item nav-link"> About </NavLink>
+                    <a href="https://github.com/krarrobo1/oer-management" className="nav-item nav-link">Github</a>
+
                 </div>
             </div>
         </nav>
