@@ -40,7 +40,7 @@ const languages = [
 
 export const UploadForm = (props) => {
 
-    const { drizzle, drizzleState } = props;
+    const { drizzle, drizzleState, isLogged } = props;
 
     const [canSubmit, setCanSubmit] = useState(false);
 
@@ -145,109 +145,116 @@ export const UploadForm = (props) => {
     }
 
     return (
-        <form className="row g-3" onSubmit={handleSubmit}>
-            <div className="col-md-6">
-                <label className="form-label">Resource Name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    name="name"
-                    maxLength="32"
-                    value={name}
-                    onChange={handleInputChange}
-                    autoComplete="off"
-                />
-            </div>
-            <div className="col-md-6">
-                <label className="form-label">Subject</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    name="subject"
-                    maxLength="32"
-                    value={subject}
-                    onChange={handleInputChange}
-                    autoComplete="off"
-                />
-            </div>
-            <div className="col-md-4">
-                <label className="form-label" >
-                    Material Type
-                </label>
-                <select className="form-select" onChange={handleInputChange} name="materialType" value={materialType}>
-                    <option>Choose...</option>
-                    {materialTypes.map((type, index) => (
-                        <option key={index + 1}> {type} </option>)
-                    )}
-                </select>
-            </div>
-            <div className="col-md-4">
-                <label className="form-label">
-                    License
-                    <a href="/about"> (?) </a>
-                </label>
-                <select className="form-select" onChange={handleInputChange} name="license" value={license}>
-                    <option>Choose...</option>
-                    {licenses.map((type, index) => (
-                        <option key={index + 1}> {type} </option>)
-                    )}
-                </select>
-            </div>
-            <div className="col-md-4">
-                <label className="form-label">
-                    Language
-                    <a href="/about"> (?) </a>
-                </label>
-                <select className="form-select" onChange={handleInputChange} name="language" value={language}>
-                    <option>Choose...</option>
-                    {languages.map((type, index) => (
-                        <option key={index + 1}> {type} </option>)
-                    )}
-                </select>
-            </div>
-            <div className="col-12">
-                <div className="row">
-                    <div className="col-12">
-                        <label className="form-label">
-                            Tags
-                        </label>
-                    </div>
-                    <div className="col-6">
+        <div>
+            { !isLogged ? (
+                <div class="alert alert-primary" role="alert">
+                    Please register
+                </div>)
+                :
+                (<form className="row g-3" onSubmit={handleSubmit}>
+                    <div className="col-md-6">
+                        <label className="form-label">Resource Name</label>
                         <input
                             type="text"
-                            name="tag"
+                            className="form-control"
+                            name="name"
                             maxLength="32"
-                            onChange={changeTag}
-                            value={tag}
-                            className="form-control mb-2"
-                            placeholder="Insert your tag"
+                            value={name}
+                            onChange={handleInputChange}
+                            autoComplete="off"
                         />
                     </div>
-
-                    <div className="col-6">
-                        <button className="btn btn-primary btn-block" onClick={handleAddTag}>Add</button>
+                    <div className="col-md-6">
+                        <label className="form-label">Subject</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="subject"
+                            maxLength="32"
+                            value={subject}
+                            onChange={handleInputChange}
+                            autoComplete="off"
+                        />
+                    </div>
+                    <div className="col-md-4">
+                        <label className="form-label" >
+                            Material Type
+                    </label>
+                        <select className="form-select" onChange={handleInputChange} name="materialType" value={materialType}>
+                            <option>Choose...</option>
+                            {materialTypes.map((type, index) => (
+                                <option key={index + 1}> {type} </option>)
+                            )}
+                        </select>
+                    </div>
+                    <div className="col-md-4">
+                        <label className="form-label">
+                            License
+                        <a href="/about"> (?) </a>
+                        </label>
+                        <select className="form-select" onChange={handleInputChange} name="license" value={license}>
+                            <option>Choose...</option>
+                            {licenses.map((type, index) => (
+                                <option key={index + 1}> {type} </option>)
+                            )}
+                        </select>
+                    </div>
+                    <div className="col-md-4">
+                        <label className="form-label">
+                            Language
+                        <a href="/about"> (?) </a>
+                        </label>
+                        <select className="form-select" onChange={handleInputChange} name="language" value={language}>
+                            <option>Choose...</option>
+                            {languages.map((type, index) => (
+                                <option key={index + 1}> {type} </option>)
+                            )}
+                        </select>
                     </div>
                     <div className="col-12">
-                        {tags.map((tag, i) => (<span className="badge bg-primary" key={i}>{tag} <ImCross className="bi bi-x" onClick={() => removeBadge(i)} /></span>))}
+                        <div className="row">
+                            <div className="col-12">
+                                <label className="form-label">
+                                    Tags
+                            </label>
+                            </div>
+                            <div className="col-6">
+                                <input
+                                    type="text"
+                                    name="tag"
+                                    maxLength="32"
+                                    onChange={changeTag}
+                                    value={tag}
+                                    className="form-control mb-2"
+                                    placeholder="Insert your tag"
+                                />
+                            </div>
+
+                            <div className="col-6">
+                                <button className="btn btn-primary btn-block" onClick={handleAddTag}>Add</button>
+                            </div>
+                            <div className="col-12">
+                                {tags.map((tag, i) => (<span className="badge bg-primary" key={i}>{tag} <ImCross className="bi bi-x" onClick={() => removeBadge(i)} /></span>))}
+                            </div>
+                        </div>
+                        <div className="col-12 mt-5">
+                            <input
+                                type="file"
+                                onChange={captureFile} />
+                        </div>
+
                     </div>
-                </div>
-                <div className="col-12 mt-5">
-                    <input
-                        type="file"
-                        onChange={captureFile} />
-                </div>
 
-            </div>
-
-            <div className="col-12">
-                <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={!canSubmit}
-                >
-                    Upload
-                </button>
-            </div>
-        </form>
+                    <div className="col-12">
+                        <button
+                            type="submit"
+                            className="btn btn-primary"
+                            disabled={!canSubmit}
+                        >
+                            Upload
+                    </button>
+                    </div>
+                </form>)}
+        </div>
     )
 }

@@ -1,0 +1,17 @@
+.wrapper{
+    align-items: center;
+    background-color: #ff8181;
+    display: flex;
+    justify-content: center;
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+.box-container{
+    background-color: white;
+    box-shadow: 0px 3px grey;
+    border-radius: 2px;
+    padding: 20px;
+    width: 250px;
+}

@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import { timeConverter } from '../helpers/timeConverter';
-import { IPFSURL } from '../util/constants';
 
 export const ResourcesTable = (props) => {
-    const { drizzle, drizzleState } = props;
+    const { drizzle, account } = props;
 
     const [fileArray, setFileArray] = useState([]);
 
     useEffect(() => {
         async function fetchResources() {
             let table = [];
-            let lastIds = await drizzle.contracts.ResourceList.methods.lastIds(drizzleState.accounts[0]).call();
+            let lastIds = await drizzle.contracts.ResourceList.methods.lastIds(account).call();
             for (let i = 0; i < lastIds; i++) {
-                let resource = await drizzle.contracts.ResourceList.methods.resources(drizzleState.accounts[0], i).call();
+                let resource = await drizzle.contracts.ResourceList.methods.resources(account, i).call();
                 resource.filename = drizzle.web3.utils.hexToUtf8(resource.filename);
                 resource.timestamp = timeConverter(resource.timestamp);
                 resource.subject = drizzle.web3.utils.hexToUtf8(resource.subject);
@@ -21,7 +22,7 @@ export const ResourcesTable = (props) => {
                 resource.language = drizzle.web3.utils.hexToUtf8(resource.language);
                 resource.ipfshash = drizzle.web3.utils.hexToUtf8(resource.ipfshash);
 
-                let tagsTemp = await drizzle.contracts.ResourceList.methods.getFileTags(drizzleState.accounts[0], i).call()
+                let tagsTemp = await drizzle.contracts.ResourceList.methods.getFileTags(account, i).call()
                 for (let j = 0; j < 5; j++) {
                     if (tagsTemp[j] !== '0x0000000000000000000000000000000000000000000000000000000000000000') {
                         tagsTemp[j] = drizzle.web3.utils.hexToUtf8(tagsTemp[j])
@@ -37,7 +38,7 @@ export const ResourcesTable = (props) => {
         fetchResources().then(table =>{
             setFileArray(table);
         })
-    }, []);
+    }, [account]);
 
     return (
         <table className="table">
@@ -62,8 +63,12 @@ export const ResourcesTable = (props) => {
                             <td key={ipfsRow.subject}>{ipfsRow.subject}</td>
                             <td key={ipfsRow.materialType}>{ipfsRow.materialType}</td>
                             <td key={ipfsRow.owner}>{ipfsRow.owner}</td>
-                            <td key={ipfsRow.ipfshash}><a href={IPFSURL + ipfsRow.ipfshash} target='_blank'>
-                                View File </a>
+                            <td key={ipfsRow.ipfshash}>
+                                <Link to={{ pathname: "/tracker", resource: ipfsRow, ...props }}>
+                                    Explore
+                                </Link>
+                                {/* <a href={IPFSURL + ipfsRow.ipfshash} target='_blank'>
+                                View File </a> */}
                             </td>
                             <td key={ipfsRow.timestamp}>{ipfsRow.timestamp}</td>
                             {/** Return inputted Tags */

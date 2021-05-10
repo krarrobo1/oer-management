@@ -1,3 +1,14 @@
 .badge{
     margin: 0.5em;
 }
+
+.user-li{
+    font-style: italic;
+    cursor: pointer;
+}
+
+.user-li .selected{
+    text-decoration: underline;
+    font-style: italic;
+    cursor: pointer;
+}
